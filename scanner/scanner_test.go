@@ -39,3 +39,31 @@ func TestIsBlock(t *testing.T) {
 		}
 	})
 }
+
+func TestIsProperty(t *testing.T) {
+	t.Run("standard", func(t *testing.T) {
+		if !isProperty("key:: val") {
+			t.Errorf("parsing error")
+		}
+	})
+	t.Run("after white space", func(t *testing.T) {
+		if !isProperty("\t key:: val") {
+			t.Errorf("parsing error")
+		}
+	})
+	t.Run("single column", func(t *testing.T) {
+		if isProperty("key: val") {
+			t.Errorf("parsing error")
+		}
+	})
+	t.Run("columns with no space", func(t *testing.T) {
+		if isProperty("key::val") {
+			t.Errorf("parsing error")
+		}
+	})
+	t.Run("\":: \" in the middle", func(t *testing.T) {
+		if isProperty("asd key:: val") {
+			t.Errorf("parsing error")
+		}
+	})
+}
