@@ -1,5 +1,9 @@
 package scanner
 
+import (
+	"unicode"
+)
+
 type property struct {
 	name  string
 	value string
@@ -32,6 +36,21 @@ func isBlock(line string) (r bool, level int) {
 }
 
 func isProperty(line string) bool {
+	propName := false
+	for i, ch := range line {
+		if ch == ':' && i+2 < len(line) && line[i:i+3] == ":: " && propName {
+			return true
+		}
+		if unicode.IsSpace(ch) {
+			if propName {
+				return false
+			}
+		} else {
+			propName = true
+			continue
+		}
+	}
+	// matched, _ := regexp.Match("(:: ).", []byte(line))
 	return false
 }
 
