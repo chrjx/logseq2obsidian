@@ -67,3 +67,21 @@ func TestIsProperty(t *testing.T) {
 		}
 	})
 }
+
+func TestParseBlock(t *testing.T) {
+	t.Run("standard block", func(t *testing.T) {
+		if b := parseBlock("- foobar"); b.content != "foobar" {
+			t.Errorf("pasring error, got: %s", b.content)
+		}
+	})
+	t.Run("one-level block", func(t *testing.T) {
+		if b := parseBlock("\t- foobar"); b.content != "foobar" {
+			t.Errorf("pasring error, got: %s", b.content)
+		}
+	})
+	t.Run("two-level block", func(t *testing.T) {
+		if b := parseBlock("\t\t- foo-bar"); b.content != "foo-bar" {
+			t.Errorf("pasring error, got: %s", b.content)
+		}
+	})
+}
