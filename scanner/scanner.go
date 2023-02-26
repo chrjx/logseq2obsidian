@@ -54,6 +54,11 @@ func isProperty(line string) bool {
 	return false
 }
 
+func parseBlock(line string) block {
+	s := strings.TrimSpace(line)
+	return block{content: s[2:]}
+}
+
 // ReadPage
 // ReadPage By Line
 func ReadPage(lines []string) *Page {
