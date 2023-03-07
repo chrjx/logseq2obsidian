@@ -1,6 +1,10 @@
 package scanner
 
 import (
+	"bufio"
+	"net/url"
+	"os"
+	"strings"
 	"unicode"
 )
 
@@ -65,17 +69,10 @@ func parseBlock(line string) block {
 	return block{content: s[2:]}
 }
 
-// ReadPage
-// ReadPage By Line
-func ReadPage(lines []string) *Page {
-	// p := Page{}
-	// var curr *block
-	// curr = nil
-	// stack
-
-	// for _, l := range lines {
-	// if isProperty(l) {
-	// 	// if on blocks read, then the properties are block
+func GetPageTitle(title string) string {
+	decoded, _ := url.QueryUnescape(title)
+	return decoded
+}
 
 	// 	// if cursor holding a block, append the property to the block
 	// }

@@ -76,6 +76,16 @@ func TestIsProperty(t *testing.T) {
 	})
 }
 
+func TestGetPageTitle(t *testing.T) {
+	t.Run("with /", func(t *testing.T) {
+		get := "Section1%2FSection2%2FSection3%2F"
+		want := "Section1/Section2/Section3/"
+		if got := GetPageTitle(get); got != want {
+			t.Errorf("Get: %s, Want: %s, Got:%s", get, want, got)
+		}
+	})
+}
+
 func TestParseBlock(t *testing.T) {
 	t.Run("standard block", func(t *testing.T) {
 		if b := parseBlock("- foobar"); b.content != "foobar" {
