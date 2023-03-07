@@ -2,6 +2,14 @@ package scanner
 
 import "testing"
 
+func TestAppendContent(t *testing.T) {
+	b := block{content: "foo"}
+	b.appendContent("bar")
+	if b.content != "foobar" {
+		t.Errorf("append error: %s", b.content)
+	}
+}
+
 func TestIsBlock(t *testing.T) {
 	t.Run("standard block", func(t *testing.T) {
 		if b, l := isBlock("- foobar"); !b || l != 0 {
