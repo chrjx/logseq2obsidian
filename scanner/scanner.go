@@ -10,16 +10,22 @@ type property struct {
 }
 
 type block struct {
-	level    int
-	parent   []block
-	children []block
+	level   int
+	content string
+	//parent   *block
+	//children []block
+}
+
+func (b *block) appendContent(val string) {
+	b.content += val
 }
 
 type Page struct {
-	properties []*property
+	title      string
+	properties []property
 	blocks     []*block
-	parent     *Page
-	children   []*Page
+	// parent     *Page
+	// children   []*Page
 }
 
 func isBlock(line string) (r bool, level int) {
