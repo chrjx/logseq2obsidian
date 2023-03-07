@@ -70,7 +70,8 @@ func parseBlock(line string) block {
 }
 
 func GetPageTitle(title string) string {
-	decoded, _ := url.QueryUnescape(title)
+	fileName := filepath.Base(title)
+	decoded, _ := url.QueryUnescape(fileName)
 	return decoded
 }
 

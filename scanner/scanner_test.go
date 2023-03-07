@@ -84,6 +84,13 @@ func TestGetPageTitle(t *testing.T) {
 			t.Errorf("Get: %s, Want: %s, Got:%s", get, want, got)
 		}
 	})
+	t.Run("some/dir/URL%2FEncoding", func(t *testing.T) {
+		get := "some/dir/URL%2FEncoding"
+		want := "URL/Encoding"
+		if got := GetPageTitle(get); got != want {
+			t.Errorf("Get: %s, Want: %s, Got:%s", get, want, got)
+		}
+	})
 }
 
 func TestParseBlock(t *testing.T) {
