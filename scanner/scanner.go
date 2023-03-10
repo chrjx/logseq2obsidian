@@ -16,6 +16,7 @@ type property struct {
 type block struct {
 	level   int
 	content string
+	props   []property
 	//parent   *block
 	//children []block
 }
@@ -25,9 +26,9 @@ func (b *block) appendContent(val string) {
 }
 
 type Page struct {
-	title      string
-	properties []property
-	blocks     []*block
+	title  string
+	props  []property
+	blocks []*block
 	// parent     *Page
 	// children   []*Page
 }
