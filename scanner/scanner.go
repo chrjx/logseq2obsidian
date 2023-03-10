@@ -69,6 +69,26 @@ func parseBlock(line string) block {
 	return block{content: s[2:]}
 }
 
+func parseProperty(line string) *property {
+	if !isProperty(line) {
+		return nil
+	}
+	prop := strings.TrimSpace(line)
+	var name, vals string
+	for i, ch := range prop {
+		if ch == ':' && i+2 < len(line) && line[i:i+3] == ":: " {
+			name = prop[:i]
+			vals = prop[i+4:]
+			break
+		}
+	}
+	p := &property{
+		name:  name,
+		value: vals,
+	}
+	return p
+}
+
 func GetPageTitle(title string) string {
 	fileName := filepath.Base(title)
 	decoded, _ := url.QueryUnescape(fileName)

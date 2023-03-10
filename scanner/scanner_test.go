@@ -1,6 +1,9 @@
 package scanner
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestAppendContent(t *testing.T) {
 	b := block{content: "foo"}
@@ -107,6 +110,20 @@ func TestParseBlock(t *testing.T) {
 	t.Run("two-level block", func(t *testing.T) {
 		if b := parseBlock("\t\t- foo-bar"); b.content != "foo-bar" {
 			t.Errorf("pasring error, got: %s", b.content)
+		}
+	})
+}
+
+func TestParseProperty(t *testing.T) {
+	t.Run("standard", func(t *testing.T) {
+		prop := "\t\t\trefs:: Les Miserable, The Great Gatsby, Illusion Perdues"
+		get := parseProperty(prop)
+		want := &property{
+			name:  "refs",
+			value: "Les Miserable, The Great Gatsby, Illusion Perdues",
+		}
+		if reflect.DeepEqual(get, want) {
+			t.Errorf("Unequal")
 		}
 	})
 }
