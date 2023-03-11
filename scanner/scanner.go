@@ -2,8 +2,10 @@ package scanner
 
 import (
 	"bufio"
+	"fmt"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strings"
 	"unicode"
 )
@@ -132,11 +134,23 @@ func ParsePage(path string) *Page {
 	return &p
 }
 
+func readFileToLines(path string) ([]string, error) {
+	lines := make([]string, 0)
+	readFile, err := os.Open(path)
+	defer readFile.Close()
 
-	// 	// level < curr.level, exit current level,
-	// } else {
+	if err != nil {
+		return nil, err
+	}
+	fileScanner := bufio.NewScanner(readFile)
+	fileScanner.Split(bufio.ScanLines)
 
-	// }
+	for fileScanner.Scan() {
+		lines = append(lines, fileScanner.Text())
+	}
+
+	return lines, nil
+}
 
 	// }
 	return nil
