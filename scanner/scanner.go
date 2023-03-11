@@ -96,12 +96,42 @@ func GetPageTitle(title string) string {
 	return decoded
 }
 
-	// 	// if cursor holding a block, append the property to the block
-	// }
-	//  if boolean, level := isBlock(l); boolean {
-	// 	// level > curr.level, a child block of the current block
+func ParsePage(path string) *Page {
+	lines, _ := readFileToLines(path)
+	p := Page{title: GetPageTitle(path)}
+	var curr *block = nil
+	for _, l := range lines {
+		if l == "" {
+			continue
+		}
+		if isProperty(l) {
+			prop := parseProperty(l)
+			if curr == nil {
+				// if no blocks have been read, the props area page properties
+				p.props = append(p.props, *prop)
+				continue
+			} else {
+				// if cursor holding a block, append the property to the block
+				curr.props = append(p.props, *prop)
+				continue
+			}
+		}
+		// the line is a new block head
+		if b, level := isBlock(l); b {
+			b := parseBlock(l)
+			b.level = level
+			p.blocks = append(p.blocks, &b)
+			curr = &b
+			continue
+		} else {
+			// the line is neither a property nor a start of page ""append the line to current block
+			// trim tabs
+			curr.appendContent("\n" + strings.TrimLeft(l, strings.Repeat("\t", curr.level)))
+		}
+	}
+	return &p
+}
 
-	// 	// level = curr level, append a new block with same level
 
 	// 	// level < curr.level, exit current level,
 	// } else {
