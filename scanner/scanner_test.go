@@ -1,8 +1,61 @@
 package scanner
 
 import (
+	"fmt"
+	"github.com/go-test/deep"
+	"os"
 	"reflect"
 	"testing"
+)
+
+const (
+	aLogseqPageStr = "title:: <section>\n\n- Represents a section of a document. Each `section` has a heading tag (`h1`-`h6`), then the section body.\n- Example:\n\t- ```\n\t  <section>\n\t      <h2>A section of the page</h2>\n\t      <p>...</p>\n\t      <img ...>\n\t  </section>\n\t  ```\n    - LaTeX Equation\n        - $$\n            C = e_k (M) = M^e \\pmod{n}\n          $$\n- It's useful to break a long article into different sections.\n- Shouldn't be used as a generic container element. [[<div>]] is made for this."
+)
+
+var (
+	title  = property{name: "title", value: "<section>"}
+	block1 = block{
+		level:   0,
+		content: "Represents a section of a document. Each `section` has a heading tag (`h1`-`h6`), then the section body.",
+	}
+	block2 = block{
+		level:   0,
+		content: "Examples",
+	}
+	block3 = block{
+		level:   1,
+		content: "```\n  <section>\n      <h2>A section of the page</h2>\n      <p>...</p>\n      <img ...>\n  </section>\n  ```",
+	}
+	block4 = block{
+		level:   1,
+		content: "LaTeX Equation",
+	}
+	block5 = block{
+		level:   2,
+		content: "$$\n            C = e_k (M) = M^e \\pmod{n}\n          $$",
+	}
+	block6 = block{
+		level:   0,
+		content: "It's useful to break a long article into different sections.",
+	}
+	block7 = block{
+		level:   0,
+		content: "Shouldn't be used as a generic container element. [[<div>]] is made for this.",
+	}
+
+	aLogseqPage = Page{
+		title: "test",
+		props: []property{title},
+		blocks: []*block{
+			&block1,
+			&block2,
+			&block3,
+			&block4,
+			&block5,
+			&block6,
+			&block7,
+		},
+	}
 )
 
 func TestAppendContent(t *testing.T) {
@@ -126,4 +179,21 @@ func TestParseProperty(t *testing.T) {
 			t.Errorf("Unequal")
 		}
 	})
+}
+
+func TestParsePage(t *testing.T) {
+	// Write to file
+	path := "test.md"
+	f, _ := os.Create(path)
+	_, err := f.WriteString(aLogseqPageStr)
+	defer f.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	got := ParsePage(path)
+	if diff := deep.Equal(*got, aLogseqPage); diff != nil {
+		t.Error(diff)
+	}
+	os.Remove(path)
 }
