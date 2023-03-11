@@ -79,7 +79,7 @@ func parseProperty(line string) *property {
 	for i, ch := range prop {
 		if ch == ':' && i+2 < len(line) && line[i:i+3] == ":: " {
 			name = prop[:i]
-			vals = prop[i+4:]
+			vals = prop[i+3:]
 			break
 		}
 	}
