@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	aLogseqPageStr = "title:: <section>\n\n- Represents a section of a document. Each `section` has a heading tag (`h1`-`h6`), then the section body.\n- Example:\n\t- ```\n\t  <section>\n\t      <h2>A section of the page</h2>\n\t      <p>...</p>\n\t      <img ...>\n\t  </section>\n\t  ```\n    - LaTeX Equation\n        - $$\n            C = e_k (M) = M^e \\pmod{n}\n          $$\n- It's useful to break a long article into different sections.\n- Shouldn't be used as a generic container element. [[<div>]] is made for this."
+	aLogseqPageStr = "title:: <section>\n\n- Represents a section of a document. Each `section` has a heading tag (`h1`-`h6`), then the section body.\n- Example:\n\t- ```\n\t  <section>\n\t      <h2>A section of the page</h2>\n\t      <p>...</p>\n\t      <img ...>\n\t  </section>\n\t  ```\n\t- LaTeX Equation\n\t\t- $$\n\t\t  C = e_k (M) = M^e \\pmod{n}\n\t\t  $$\n- It's useful to break a long article into different sections.\n- Shouldn't be used as a generic container element. [[<div>]] is made for this."
 )
 
 var (
@@ -20,11 +20,11 @@ var (
 	}
 	block2 = block{
 		level:   0,
-		content: "Examples",
+		content: "Example:",
 	}
 	block3 = block{
 		level:   1,
-		content: "```\n  <section>\n      <h2>A section of the page</h2>\n      <p>...</p>\n      <img ...>\n  </section>\n  ```",
+		content: "```\n<section>\n    <h2>A section of the page</h2>\n    <p>...</p>\n    <img ...>\n</section>\n```",
 	}
 	block4 = block{
 		level:   1,
@@ -32,7 +32,7 @@ var (
 	}
 	block5 = block{
 		level:   2,
-		content: "$$\n            C = e_k (M) = M^e \\pmod{n}\n          $$",
+		content: "$$\nC = e_k (M) = M^e \\pmod{n}\n$$",
 	}
 	block6 = block{
 		level:   0,
@@ -44,7 +44,7 @@ var (
 	}
 
 	aLogseqPage = Page{
-		title: "test",
+		title: "test.md",
 		props: []property{title},
 		blocks: []*block{
 			&block1,
@@ -192,7 +192,8 @@ func TestParsePage(t *testing.T) {
 	}
 
 	got := ParsePage(path)
-	if diff := deep.Equal(*got, aLogseqPage); diff != nil {
+	deep.CompareUnexportedFields = true
+	if diff := deep.Equal(got, &aLogseqPage); diff != nil {
 		t.Error(diff)
 	}
 	os.Remove(path)
