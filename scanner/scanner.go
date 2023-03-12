@@ -3,6 +3,7 @@ package scanner
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -154,6 +155,29 @@ func readFileToLines(path string) ([]string, error) {
 	return lines, nil
 }
 
-	// }
+func (p *Page) WriteInObsidian(obsidianPath string) error {
+	// check last position if '/'
+	if obsidianPath[len(obsidianPath)-1] != '/' {
+		obsidianPath += "/"
+	}
+	path := obsidianPath + p.title
+	create := func(path string) (*os.File, error) {
+		if err := os.MkdirAll(filepath.Dir(path), 0770); err != nil {
+			return nil, err
+		}
+		return os.Create(path)
+	}
+	f, err := create(path)
+	defer f.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, b := range p.blocks {
+		if _, err := f.WriteString(b.content); err != nil {
+			fmt.Errorf(err.Error())
+		}
+		f.WriteString("\n\n")
+	}
 	return nil
 }

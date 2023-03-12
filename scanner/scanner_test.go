@@ -198,3 +198,27 @@ func TestParsePage(t *testing.T) {
 	}
 	os.Remove(path)
 }
+
+func TestPage_WriteInObsidian(t *testing.T) {
+	path := "foo%2Fbar%2Ftest.md"
+	f, _ := os.Create(path)
+	_, err := f.WriteString(aLogseqPageStr)
+	defer f.Close()
+	if err != nil {
+		t.Error(err)
+	}
+
+	p := ParsePage(path)
+	err = p.WriteInObsidian(".")
+	if err != nil {
+		t.Error(err)
+	}
+	// check if file in the right path foo/bar/test.md
+	content, err := os.ReadFile("foo/bar/test.md")
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println(string(content))
+	os.Remove(path)
+	os.RemoveAll("foo/")
+}
