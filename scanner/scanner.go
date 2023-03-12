@@ -128,7 +128,9 @@ func ParsePage(path string) *Page {
 		} else {
 			// the line is neither a property nor a start of page ""append the line to current block
 			// trim tabs
-			curr.appendContent("\n" + strings.TrimLeft(l, strings.Repeat("\t", curr.level)))
+			l = strings.TrimLeft(l, strings.Repeat("\t", curr.level))
+			l = l[2:]
+			curr.appendContent("\n" + l)
 		}
 	}
 	return &p
