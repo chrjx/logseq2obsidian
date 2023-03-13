@@ -102,6 +102,11 @@ func TestIsBlock(t *testing.T) {
 			t.Errorf("pasring error: {boolean: %t, level: %d}", b, l)
 		}
 	})
+	t.Run("only dash", func(t *testing.T) {
+		if b, l := isBlock("\t\t\t- \n"); !b || l != 3 {
+			t.Errorf("pasring error: {boolean: %t, level: %d}", b, l)
+		}
+	})
 }
 
 func TestIsProperty(t *testing.T) {
