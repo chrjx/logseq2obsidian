@@ -157,6 +157,13 @@ func TestGetPageTitle(t *testing.T) {
 			t.Errorf("Get: %s, Want: %s, Got:%s", get, want, got)
 		}
 	})
+	t.Run("A Tour of C++%3A Container Class", func(t *testing.T) {
+		get := "A Tour of C++%3A Container Class"
+		want := "A Tour of C++: Container Class"
+		if got := GetPageTitle(get); got != want {
+			t.Errorf("Get: %s, Want: %s, Got:%s", get, want, got)
+		}
+	})
 }
 
 func TestParseBlock(t *testing.T) {

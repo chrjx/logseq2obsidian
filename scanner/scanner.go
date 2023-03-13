@@ -101,6 +101,7 @@ func parseProperty(line string) *property {
 
 func GetPageTitle(title string) string {
 	fileName := filepath.Base(title)
+	fileName = strings.ReplaceAll(fileName, "+", "%2B")
 	decoded, _ := url.QueryUnescape(fileName)
 	return decoded
 }
@@ -127,6 +128,7 @@ func ParsePage(path string) *Page {
 		}
 		// the line is a new block head
 		if b, level := isBlock(l); b {
+			// fmt.Println(l)
 			b := parseBlock(l)
 			b.level = level
 			p.blocks = append(p.blocks, &b)
