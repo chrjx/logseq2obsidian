@@ -18,3 +18,7 @@ logseq2obsidian
 
 # Go workspace file
 go.work
+
+*.md
+
+logseq2obisdian
