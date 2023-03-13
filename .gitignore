@@ -22,3 +22,5 @@ go.work
 *.md
 
 logseq2obisdian
+
+!README.md
