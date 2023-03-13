@@ -175,6 +175,11 @@ func TestParseBlock(t *testing.T) {
 			t.Errorf("pasring error, got: %s", b.content)
 		}
 	})
+	t.Run("empty block, only dash", func(t *testing.T) {
+		if b := parseBlock("\t\t\t- \n"); b.content != "" {
+			t.Errorf("pasring error, got: %s", b.content)
+		}
+	})
 }
 
 func TestParseProperty(t *testing.T) {
