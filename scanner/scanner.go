@@ -70,7 +70,13 @@ func isProperty(line string) bool {
 
 func parseBlock(line string) block {
 	s := strings.TrimSpace(line)
-	return block{content: s[2:]}
+	var content string
+	if len(s) <= 2 {
+		content = ""
+	} else {
+		content = s[2:]
+	}
+	return block{content: content}
 }
 
 func parseProperty(line string) *property {
