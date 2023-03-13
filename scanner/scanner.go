@@ -191,3 +191,7 @@ func (p *Page) WriteInObsidian(obsidianPath string) error {
 	}
 	return nil
 }
+
+func (p *Page) GetTitle() string {
+	return p.title
+}
