@@ -121,7 +121,7 @@ func ParsePage(path string) *Page {
 				continue
 			} else {
 				// if cursor holding a block, append the property to the block
-				curr.props = append(p.props, *prop)
+				curr.props = append(curr.props, *prop)
 				continue
 			}
 		}
@@ -135,9 +135,13 @@ func ParsePage(path string) *Page {
 		} else {
 			// the line is neither a property nor a start of page ""append the line to current block
 			// trim tabs
-			l = strings.TrimLeft(l, strings.Repeat("\t", curr.level))
-			l = l[2:]
-			curr.appendContent("\n" + l)
+			if curr != nil {
+				l = strings.TrimLeft(l, strings.Repeat("\t", curr.level))
+				if len(l) > 2 {
+					l = l[2:]
+				}
+				curr.appendContent("\n" + l)
+			}
 		}
 	}
 	return &p
